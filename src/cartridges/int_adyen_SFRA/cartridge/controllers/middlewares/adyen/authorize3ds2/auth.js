@@ -14,7 +14,7 @@ function handle3DS2Authentication(options) {
   const { req } = options;
   const order = OrderMgr.getOrder(req.form.merchantReference);
   const paymentInstrument = order.getPaymentInstruments(
-    constants.METHOD_ADYEN_COMPONENT,
+    constants.METHOD_CREDIT_CARD,
   )[0];
   const paymentDetailsRequest = {
     paymentData: paymentInstrument.custom.adyenPaymentData,

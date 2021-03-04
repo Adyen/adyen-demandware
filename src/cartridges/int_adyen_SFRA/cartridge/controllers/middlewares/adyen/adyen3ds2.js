@@ -19,7 +19,7 @@ function adyen3ds2(req, res, next) {
 
     const order = OrderMgr.getOrder(orderNo);
     const paymentInstrument = order.getPaymentInstruments(
-      constants.METHOD_ADYEN_COMPONENT,
+      constants.METHOD_CREDIT_CARD,
     )[0];
     const action = paymentInstrument.custom.adyenAction;
 

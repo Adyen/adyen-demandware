@@ -6,10 +6,10 @@ const adyenHelpers = require('*/cartridge/scripts/checkout/adyenHelpers');
 
 function handlePaymentAuthorization(order, { res }, emit) {
   const handleRedirectResult = (handlePaymentResult) => {
-    const paymentInstrument = order.getPaymentInstruments(
-      constants.METHOD_ADYEN_COMPONENT,
-    )[0];
     if (handlePaymentResult.threeDS2) {
+      const paymentInstrument = order.getPaymentInstruments(
+        constants.METHOD_CREDIT_CARD,
+      )[0];
       Transaction.wrap(() => {
         paymentInstrument.custom.adyenAction = handlePaymentResult.action;
       });
@@ -31,6 +31,9 @@ function handlePaymentAuthorization(order, { res }, emit) {
     if (handlePaymentResult.redirectObject) {
       // If authorized3d, then redirectObject from credit card, hence it is 3D Secure
       if (handlePaymentResult.authorized3d) {
+        const paymentInstrument = order.getPaymentInstruments(
+          constants.METHOD_CREDIT_CARD,
+        )[0];
         Transaction.wrap(() => {
           paymentInstrument.custom.adyenMD =
             handlePaymentResult.redirectObject.data.MD;

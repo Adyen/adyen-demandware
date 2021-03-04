@@ -3,7 +3,6 @@ jest.mock('../utils/index', () => ({
 }));
 /* eslint-disable global-require */
 let handlePayments;
-let validatePayment;
 let order;
 let orderNumber;
 let currentBasket;
@@ -13,7 +12,6 @@ beforeEach(() => {
   jest.clearAllMocks();
 
   handlePayments = require('../adyenHelpers').handlePayments;
-  validatePayment = require('../adyenHelpers').validatePayment;
   currentBasket = require('dw/order/BasketMgr').getCurrentBasket();
   req = {
     geolocation: 'mockedLocation',
@@ -42,19 +40,6 @@ describe('Adyen Helpers', () => {
       order.paymentInstruments = [];
       const handlePaymentsResult = handlePayments(order, orderNumber);
       expect(handlePaymentsResult.error).toBeTruthy();
-    });
-  });
-  describe('Validate Payment', () => {
-    it('should return error', () => {
-      const { validatePaymentMethod } = require('../utils/index');
-      validatePaymentMethod.mockImplementation(() => jest.fn(() => false));
-      const validatePaymentResult = validatePayment(req, currentBasket);
-      expect(validatePaymentResult.error).toBeTruthy();
-    });
-
-    it('should be valid', () => {
-      const validatePaymentResult = validatePayment(req, currentBasket);
-      expect(validatePaymentResult.error).toBeFalsy();
     });
   });
 });

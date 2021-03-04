@@ -2,6 +2,7 @@ const Transaction = require('dw/system/Transaction');
 const HookMgr = require('dw/system/HookMgr');
 const PaymentMgr = require('dw/order/PaymentMgr');
 const OrderMgr = require('dw/order/OrderMgr');
+const constants = require('*/cartridge/adyenConstants/constants');
 
 const getAuthorizationResult = (pProcessor, orderNo, pInstrument) => {
   const hookName = `app.payment.processor.${pProcessor.ID.toLowerCase()}`;
@@ -17,7 +18,7 @@ const getPayments = (order, orderNumber) =>
   order.paymentInstruments.toArray().reduce((acc, paymentInstrument) => {
     if (!acc.error) {
       const { paymentProcessor } = PaymentMgr.getPaymentMethod(
-        paymentInstrument.paymentMethod,
+        constants.METHOD_ADYEN_COMPONENT,
       );
 
       if (paymentProcessor) {

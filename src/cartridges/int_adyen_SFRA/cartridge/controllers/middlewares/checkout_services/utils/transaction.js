@@ -1,28 +1,10 @@
 const Resource = require('dw/web/Resource');
 const Transaction = require('dw/system/Transaction');
 const COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
-const adyenHelpers = require('*/cartridge/scripts/checkout/adyenHelpers');
 const basketCalculationHelpers = require('*/cartridge/scripts/helpers/basketCalculationHelpers');
 const { checkForErrors } = require('../helpers/index');
 
 const handleTransaction = (currentBasket, { res, req }, emit) => {
-  const validatePayment = () => {
-    // Re-validates existing payment instruments
-    const validPayment = adyenHelpers.validatePayment(req, currentBasket);
-    if (validPayment.error) {
-      res.json({
-        error: true,
-        errorStage: {
-          stage: 'payment',
-          step: 'paymentInstrument',
-        },
-        errorMessage: Resource.msg('error.payment.not.valid', 'checkout', null),
-      });
-      emit('route:Complete');
-    }
-    return !validPayment.error;
-  };
-
   const calculatePaymentTransaction = () => {
     const calculatedPaymentTransactionTotal = COHelpers.calculatePaymentTransaction(
       currentBasket,
@@ -47,7 +29,7 @@ const handleTransaction = (currentBasket, { res, req }, emit) => {
     basketCalculationHelpers.calculateTotals(currentBasket);
   });
 
-  return validatePayment() && calculatePaymentTransaction();
+  return calculatePaymentTransaction();
 };
 
 module.exports = handleTransaction;

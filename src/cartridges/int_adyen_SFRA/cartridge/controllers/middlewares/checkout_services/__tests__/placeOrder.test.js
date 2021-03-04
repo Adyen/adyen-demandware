@@ -74,12 +74,6 @@ describe('Place Order', () => {
     placeOrder.call({ emit: jest.fn() }, req, res, jest.fn());
     expect(res.json.mock.calls).toMatchSnapshot();
   });
-  it('should fail if payment validation has error', () => {
-    const adyenHelpers = require('*/cartridge/scripts/checkout/adyenHelpers');
-    adyenHelpers.validatePayment.mockImplementation(() => ({ error: true }));
-    placeOrder.call({ emit: jest.fn() }, req, res, jest.fn());
-    expect(res.json.mock.calls).toMatchSnapshot();
-  });
   it('should fail if calculated payment total has error', () => {
     const COHelpers = require('*/cartridge/scripts/checkout/checkoutHelpers');
     COHelpers.calculatePaymentTransaction.mockImplementation(() => ({

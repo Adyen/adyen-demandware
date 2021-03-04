@@ -10,18 +10,3 @@ Array [
   ],
 ]
 `;
-
-exports[`Transaction should return json with error details when payment validation fails 1`] = `
-Array [
-  Array [
-    Object {
-      "error": true,
-      "errorMessage": "mocked_error.payment.not.valid",
-      "errorStage": Object {
-        "stage": "payment",
-        "step": "paymentInstrument",
-      },
-    },
-  ],
-]
-`;

@@ -24,13 +24,6 @@ describe('Transaction', () => {
     const isSuccessful = handleTransaction({}, { res, req }, emit);
     expect(isSuccessful).toBeFalsy();
   });
-  it('should return json with error details when payment validation fails', () => {
-    checkForErrors.mockReturnValue(false);
-    adyenHelpers.validatePayment.mockReturnValue({ error: true });
-    const isSuccessful = handleTransaction({}, { res, req }, emit);
-    expect(res.json.mock.calls).toMatchSnapshot();
-    expect(isSuccessful).toBeFalsy();
-  });
   it('should return json with error details when payment transaction calculation fails', () => {
     checkForErrors.mockReturnValue(false);
     adyenHelpers.validatePayment.mockReturnValue({ error: false });

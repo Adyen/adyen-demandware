@@ -73,7 +73,7 @@ function handleAuthorize(options) {
   const { req } = options;
   const order = OrderMgr.getOrder(req.querystring.merchantReference);
   const [paymentInstrument] = order
-    .getPaymentInstruments(constants.METHOD_ADYEN_COMPONENT)
+    .getPaymentInstruments(constants.METHOD_CREDIT_CARD)
     .toArray();
 
   const hasValidMD = paymentInstrument.custom.adyenMD === req.form.MD;

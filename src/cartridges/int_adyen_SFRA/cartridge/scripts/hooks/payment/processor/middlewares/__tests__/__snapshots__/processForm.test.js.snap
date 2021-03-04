@@ -34,7 +34,25 @@ exports[`processForm should return viewData when authenticated and registered 1`
 Object {
   "error": false,
   "viewData": Object {
+    "0": "m",
+    "1": "o",
+    "2": "c",
+    "3": "k",
+    "4": "e",
+    "5": "d",
+    "6": "_",
+    "7": "i",
+    "8": "d",
     "paymentInformation": Object {
+      "0": "m",
+      "1": "o",
+      "2": "c",
+      "3": "k",
+      "4": "e",
+      "5": "d",
+      "6": "_",
+      "7": "i",
+      "8": "d",
       "adyenIssuerName": "mocked_issuer_name",
       "adyenPaymentMethod": "mockedPaymentMethod",
       "cardNumber": "mocked_cc_number",
@@ -45,14 +63,12 @@ Object {
       "isCreditCard": false,
       "securityCode": "mocked_security_code",
       "stateData": "mockedStateData",
-      "storedPaymentUUID": "mocked_id",
     },
     "paymentMethod": Object {
       "htmlName": "mockedPaymentMethod",
       "value": "mockedPaymentMethod",
     },
     "saveCard": true,
-    "storedPaymentUUID": "mocked_id",
   },
 }
 `;

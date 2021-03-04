@@ -109,21 +109,6 @@ Array [
 ]
 `;
 
-exports[`Place Order should fail if payment validation has error 1`] = `
-Array [
-  Array [
-    Object {
-      "error": true,
-      "errorMessage": "mocked_error.payment.not.valid",
-      "errorStage": Object {
-        "stage": "payment",
-        "step": "paymentInstrument",
-      },
-    },
-  ],
-]
-`;
-
 exports[`Place Order should fail if placeOrder has error 1`] = `
 Array [
   Array [
