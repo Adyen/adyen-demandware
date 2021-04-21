@@ -20,6 +20,10 @@ function getCardConfig() {
         store.updateSelectedPayment('isValid', store.isValid);
         store.updateSelectedPayment('stateData', state.data);
       }
+      if (state.data.paymentMethod.holderName) {
+        document.querySelector('#cardOwner').value =
+          state.data.paymentMethod.holderName;
+      }
     },
     onFieldValid,
     onBrand,

@@ -38,6 +38,7 @@
 <input type="hidden" id="orderToken" name="${pdict.CurrentForms.adyPaydata.orderToken.htmlName}">
 <input type="text" class="form-control cardNumber" style="display:none" id="cardNumber" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.number.htmlName}">
 <input type="hidden" class="form-control" id="cardType" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.type.htmlName}">
+<input type="hidden" class="form-control" id="cardOwner" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.owner.htmlName}">
 
 <input id="adyenPaymentMethodName" type="hidden" name="adyenPaymentMethod"/>
 <input id="adyenIssuerName" type="hidden" name="adyenIssuerName"/>

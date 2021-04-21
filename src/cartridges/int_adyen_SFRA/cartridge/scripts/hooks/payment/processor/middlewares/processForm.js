@@ -66,6 +66,7 @@ function getViewData(
       isCreditCard,
       cardType: paymentForm.creditCardFields.cardType.value,
       cardNumber: paymentForm.creditCardFields.cardNumber.value,
+      cardHolderName: paymentForm.creditCardFields.cardOwner.value,
       adyenPaymentMethod,
       adyenIssuerName,
       stateData: paymentForm.adyenPaymentFields.adyenStateData.value,

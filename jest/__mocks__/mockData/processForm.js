@@ -9,6 +9,9 @@ export const getPaymentForm = jest.fn(() => ({
     cardNumber: {
       value: 'mockedCardNumber',
     },
+    cardOwner: {
+      value: 'mockedOwnerName',
+    },
     saveCard: {
       checked: true,
     },

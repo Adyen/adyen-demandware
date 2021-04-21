@@ -35,6 +35,14 @@ function initializeBillingEvents() {
       .innerHTML;
     adyenPaymentMethod.value = paymentMethodLabel;
 
+    if(selectedMethod.includes('storedCard')) {
+      checkoutConfiguration.paymentMethodsResponse.storedPaymentMethods.forEach(method => {
+        if(method.id === selectedMethod.slice(10)) {
+          document.querySelector('#cardNumber').value = `${MASKED_CC_PREFIX}${method.lastFour}`;
+        }
+      })
+    }
+
     validateComponents();
 
     return showValidation();
@@ -74,6 +82,9 @@ function initializeBillingEvents() {
             $('#browserInfo').val(JSON.stringify(state.data.browserInfo));
             componentsObj[selectedMethod].isValid = isValid;
             componentsObj[selectedMethod].stateData = state.data;
+          }
+          if(state.data.paymentMethod.holderName) {
+            document.querySelector('#cardOwner').value = state.data.paymentMethod.holderName;
           }
         },
       },

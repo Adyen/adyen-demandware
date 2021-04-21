@@ -16,6 +16,7 @@ Object {
     "paymentInformation": Object {
       "adyenIssuerName": "mocked_issuer_name",
       "adyenPaymentMethod": "mockedPaymentMethod",
+      "cardHolderName": "mockedOwnerName",
       "cardNumber": "mockedCardNumber",
       "cardType": "mockedCardType",
       "isCreditCard": true,
@@ -55,6 +56,7 @@ Object {
       "8": "d",
       "adyenIssuerName": "mocked_issuer_name",
       "adyenPaymentMethod": "mockedPaymentMethod",
+      "cardHolderName": "mockedOwnerName",
       "cardNumber": "mocked_cc_number",
       "cardType": "mocked_cc_type",
       "creditCardToken": "mocked_raw_cc_token ",
