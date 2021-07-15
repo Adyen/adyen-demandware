@@ -44,7 +44,7 @@ function getResponseBody(action) {
 }
 
 function savePayment(req, res, next) {
-  if (!AdyenHelper.getAdyenSecuredFieldsEnabled()) {
+  if (!AdyenHelper.getAdyenCartridgeEnabled()) {
     return next();
   }
 

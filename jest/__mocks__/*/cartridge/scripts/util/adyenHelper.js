@@ -29,7 +29,7 @@ export const getAdyenGivingBackgroundUrl = jest.fn(
   () => 'mocked_background_url',
 );
 export const getAdyenGivingLogoUrl = jest.fn(() => 'mocked_logo_url');
-export const getAdyenSecuredFieldsEnabled = jest.fn(() => true);
+export const getAdyenCartridgeEnabled = jest.fn(() => true);
 export const getCardToken = jest.fn(() => 'mocked_token');
 export const getSFCCCardType = jest.fn(() => 'mocked_cardType');
 export const createAdyenCheckoutResponse = jest.fn(() => ({isFinal: true, isSuccessful: false}));

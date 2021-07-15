@@ -117,8 +117,8 @@ var adyenHelperObj = {
     return returnValue;
   },
 
-  getAdyenSecuredFieldsEnabled() {
-    return adyenHelperObj.getCustomPreference('AdyenSecuredFieldsEnabled');
+  getAdyenCartridgeEnabled() {
+    return adyenHelperObj.getCustomPreference('AdyenCartridgeEnabled');
   },
 
   getAdyen3DS2Enabled() {

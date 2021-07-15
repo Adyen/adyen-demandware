@@ -19,7 +19,7 @@ describe('Save Payment', () => {
   it('should do nothing if adyen secured fields is not enabled', () => {
     const AdyenHelper = require('*/cartridge/scripts/util/adyenHelper');
     const server = require('server');
-    AdyenHelper.getAdyenSecuredFieldsEnabled.mockImplementation(() => false);
+    AdyenHelper.getAdyenCartridgeEnabled.mockImplementation(() => false);
     savePayment.call({ emit: jest.fn() }, req, res, jest.fn());
     expect(server.forms.getForm).toBeCalledTimes(0);
   });

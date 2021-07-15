@@ -314,8 +314,8 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>true</default-value>
             </attribute-definition>
-            <attribute-definition attribute-id="AdyenSecuredFieldsEnabled">
-                <display-name xml:lang="x-default">Secured Fields enabled</display-name>
+            <attribute-definition attribute-id="AdyenCartridgeEnabled">
+                <display-name xml:lang="x-default">Adyen Cartridge enabled</display-name>
                 <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
@@ -567,7 +567,7 @@
                 <attribute attribute-id="Adyen_merchantCode"/>
                 <attribute attribute-id="Adyen_Mode"/>
                 <attribute attribute-id="Adyen_API_Key"/>
-                <attribute attribute-id="AdyenSecuredFieldsEnabled"/>
+                <attribute attribute-id="AdyenCartridgeEnabled"/>
                 <attribute attribute-id="Adyen3DS2Enabled"/>
                 <attribute attribute-id="AdyenRecurringEnabled"/>
                 <attribute attribute-id="AdyenOneClickEnabled"/>
