@@ -814,7 +814,7 @@ var adyenHelperObj = {
       };
     }
 
-    Logger.getLogger('Adyen').error(
+    dwsystem.Logger.getLogger('Adyen').error(
         `Unknown resultCode: ${checkoutresponse.resultCode}.`,
     );
     return {

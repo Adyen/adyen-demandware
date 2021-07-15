@@ -1,0 +1,10 @@
+
+<iscontent type="text/html"/>
+
+<form method="post"
+      id="redirectForm"
+      action="${pdict.redirectURL}">
+    <input type="hidden" id="merchantReference" name="merchantReference" value="${pdict.merchantReference}"/>
+    <input type="hidden" id="signature" name="signature" value="${pdict.signature}"/>
+
+</form>

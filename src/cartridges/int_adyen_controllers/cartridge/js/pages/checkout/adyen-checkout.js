@@ -1,5 +1,6 @@
 require('./bundle');
 require('./adyen-giving');
+require('./amazon');
 
 var qrCodeMethods = ['swish', 'wechatpayQR', 'bcmc_mobile', 'pix'];
 var maskedCardNumber;
@@ -167,6 +168,7 @@ function initializeBillingEvents() {
       bcmc_mobile: getQRCodeConfig(),
       wechatpayQR: getQRCodeConfig(),
       pix: getQRCodeConfig(),
+      amazonpay: getAmazonpayConfig(),
       afterpay_default: {
         visibility: {
           personalDetails: 'editable',
@@ -179,7 +181,7 @@ function initializeBillingEvents() {
               '#dwfrm_billing_billingAddress_addressFields_firstName',
             ).value,
             lastName: document.querySelector(
-               '#dwfrm_billing_billingAddress_addressFields_lastName',
+                '#dwfrm_billing_billingAddress_addressFields_lastName',
             ).value,
             telephoneNumber: document.querySelector(
                '#dwfrm_billing_billingAddress_addressFields_phone',
@@ -308,7 +310,7 @@ function resolveUnmount(key, val) {
 function displaySelectedMethod(type) {
   selectedMethod = type;
   resetPaymentMethod();
-  if (['paypal', 'paywithgoogle', 'mbway', ...qrCodeMethods].indexOf(type) > -1) {
+  if (['paypal', 'paywithgoogle', 'mbway', 'amazonpay', ...qrCodeMethods].indexOf(type) > -1) {
     document.querySelector('#billing-submit').disabled = true;
   } else {
     document.querySelector('#billing-submit').disabled = false;
@@ -387,6 +389,8 @@ async function renderGenericComponent() {
   if (paymentMethodsResponse.amount) {
     checkoutConfiguration.amount = paymentMethodsResponse.amount;
     checkoutConfiguration.paymentMethodsConfiguration.paypal.amount = paymentMethodsResponse.amount;
+    checkoutConfiguration.paymentMethodsConfiguration.amazonpay.amount =
+        paymentMethodsResponse.amount;
   }
   if (paymentMethodsResponse.countryCode) {
     checkoutConfiguration.countryCode = paymentMethodsResponse.countryCode;
@@ -581,7 +585,7 @@ function paymentFromComponent(data, component) {
 
 $('#dwfrm_billing').submit(function (e) {
   if (
-      ['paypal', 'mbway', ...qrCodeMethods].indexOf(selectedMethod) > -1 &&
+      ['paypal', 'mbway', 'amazonpay', ...qrCodeMethods].indexOf(selectedMethod) > -1 &&
     !document.querySelector('#paymentFromComponentStateData').value
   ) {
     e.preventDefault();
@@ -622,6 +626,40 @@ function getQRCodeConfig() {
       );
       $('#dwfrm_billing').trigger('submit');
     },
+  };
+}
+
+function getAmazonpayConfig() {
+  return {
+    showPayButton: true,
+    productType: 'PayAndShip',
+    checkoutMode: 'ProcessOrder',
+    returnUrl: window.returnURL,
+    addressDetails: {
+      name: paymentMethodsResponse.shippingAddress.firstName
+      + ' ' + paymentMethodsResponse.shippingAddress.lastName,
+      addressLine1: paymentMethodsResponse.shippingAddress.address1,
+      city:  paymentMethodsResponse.shippingAddress.city,
+      stateOrRegion: paymentMethodsResponse.shippingAddress.city,
+      postalCode:  paymentMethodsResponse.shippingAddress.postalCode,
+      countryCode: paymentMethodsResponse.shippingAddress.country,
+      phoneNumber: paymentMethodsResponse.shippingAddress.phone,
+    },
+    configuration: {
+      merchantId: window.amazonMerchantID,
+      storeId: window.amazonStoreID,
+      publicKeyId: window.amazonPublicKeyID,
+    },
+    onClick: (resolve, reject) => {
+      $('#dwfrm_billing').trigger('submit');
+      if (formErrorsExist) {
+        reject();
+      } else {
+        assignPaymentMethodValue();
+        resolve();
+      }
+    },
+    onError: () => {},
   };
 }
 

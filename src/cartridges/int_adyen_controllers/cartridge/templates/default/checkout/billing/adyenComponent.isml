@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="${URLUtils.staticURL('/css/adyenCSS.css')}" />
 <isset name="adyenRecurringPaymentsEnabled" value="${AdyenHelper.getAdyenRecurringPaymentsEnabled()}" scope="page"/>
 <isset name="methods" value="${pdict.AdyenPaymentMethods}" scope="page"/>
+<isset name="ShowConfirmationPaymentFromComponent" value="${URLUtils.https('Adyen-ShowConfirmationPaymentFromComponent')}" scope="page"/>
 
 <link rel="stylesheet" type="text/css" href="${AdyenHelper.getCheckoutCSS()}"/>
 
@@ -19,45 +20,79 @@
     var environment = "${AdyenHelper.getAdyenEnvironment().toLowerCase()}";
     var locale = "${request.locale}";
     window.Configuration = {clientKey, loadingContext, environment, locale};
-    window.installments = "${AdyenHelper.getCreditCardInstallments()}";
-    window.paypalMerchantID = "${AdyenHelper.getPaypalMerchantID()}";
-    window.googleMerchantID = "${AdyenHelper.getGoogleMerchantID()}";
+    window.amazonMerchantID = "${AdyenHelper.getAmazonMerchantID()}";
+    window.amazonPublicKeyID = "${AdyenHelper.getAmazonPublicKeyID()}";
+    window.returnURL = "${URLUtils.https('COBilling-Start')}";
+    window.amazonStoreID = "${AdyenHelper.getAmazonStoreID()}";
     window.merchantAccount = "${AdyenHelper.getAdyenMerchantAccount()}";
-    window.cardholderNameBool = '${AdyenHelper.getAdyenCardholderNameEnabled()}';
-    window.paypalIntent = '${AdyenHelper.getAdyenPayPalIntent()}';
     window.paymentFromComponentURL = "${URLUtils.https('Adyen-PaymentFromComponent')}";
     var showStoreDetails = ${customer.authenticated && adyenRecurringPaymentsEnabled};
 </script>
 
-<isset name="ratePayValues" value="${AdyenHelper.getRatePayID()}" scope="page"/>
+<isif condition="${request.getHttpQueryString() && request.getHttpQueryString().indexOf('amazonCheckoutSessionId') > -1} ">
+    <link rel="stylesheet" type="text/css" href="${pdict.AdyenHelper.getCheckoutCSS()}"/>
 
-<input type="hidden" id="adyenStateData" name="${pdict.CurrentForms.adyPaydata.adyenStateData.htmlName}">
-<input type="hidden" id="paymentFromComponentStateData" name="${pdict.CurrentForms.adyPaydata.paymentFromComponentStateData.htmlName}">
-<input type="hidden" id="merchantReference" name="${pdict.CurrentForms.adyPaydata.merchantReference.htmlName}">
-<input type="hidden" id="orderToken" name="${pdict.CurrentForms.adyPaydata.orderToken.htmlName}">
-<input type="text" class="form-control cardNumber" style="display:none" id="cardNumber" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.number.htmlName}">
-<input type="hidden" class="form-control" id="cardType" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.type.htmlName}">
-
-<input id="adyenPaymentMethodName" type="hidden" name="adyenPaymentMethod"/>
-<input id="adyenIssuerName" type="hidden" name="adyenIssuerName"/>
-
-<ul id="paymentMethodsList"></ul>
-
-<iscomment>
-    Adyen RatePay Device Fingerprint Code
-</iscomment>
-<isif condition="${empty(session.privacy.ratePayFingerprint)}">
-    <script language="JavaScript">
-        var di = {t:'${ratePayValues.sessionID}',v:'${ratePayValues.ratePayID}',l:'Checkout'};
+    <script>
+        var queryString = '${request.getHttpQueryString()}'.split("=");
+        var amazonCheckoutSessionId = queryString[queryString.length - 1];
+        window.amazonCheckoutSessionId = amazonCheckoutSessionId;
     </script>
-    <script type="text/javascript" src="//d.ratepay.com/${ratePayValues.ratePayID}/di.js"></script>
-</isif>
+    <div id="amazon-container"></div>
+    <input type="hidden" id="adyenStateData" name="${pdict.CurrentForms.adyPaydata.adyenStateData.htmlName}">
+    <div class="ui-widget-overlay ui-front" style="z-index: 100;"></div>
 
-<iscomment>
-    Adyen Generic Device Fingerprint Code
-</iscomment>
-<script type="text/javascript" src="https://live.adyen.com/hpp/js/df.js?v=${session.sessionID}"></script>
-<isinputfield type="hidden" formfield="${pdict.CurrentForms.adyPaydata.adyenFingerprint}" />
-<script type="text/javascript">
-    dfDo('dwfrm_adyPaydata_adyenFingerprint');
-</script>
+      </form>
+      <form method="post"
+            id="showConfirmationForm"
+            name="showConfirmationForm"
+            action="${ShowConfirmationPaymentFromComponent}">
+            <input type="hidden" id="additionalDetailsHidden" name="additionalDetailsHidden" value="null"/>
+            <input type="hidden" id="merchantReference" name="${pdict.CurrentForms.adyPaydata.merchantReference.htmlName}">
+            <input type="hidden" id="orderToken" name="${pdict.CurrentForms.adyPaydata.orderToken.htmlName}">
+            <input type="hidden" id="result" name="${pdict.CurrentForms.adyPaydata.result.htmlName}" value="null">
+            <input type="hidden" id="paymentFromComponentStateData" name="${pdict.CurrentForms.adyPaydata.paymentFromComponentStateData.htmlName}">
+      </form>
+<iselse>
+    <script>
+         window.installments = '${pdict.adyen.installments}';
+         window.paypalMerchantID = '${pdict.adyen.paypalMerchantID}';
+         window.googleMerchantID = '${pdict.adyen.googleMerchantID}';
+         window.cardholderNameBool = '${pdict.adyen.cardholderNameBool}';
+         window.paypalIntent = '${pdict.adyen.paypalIntent}';
+         window.merchantAccount = '${pdict.adyen.merchantAccount}';
+     </script>
+
+    <isset name="ratePayValues" value="${AdyenHelper.getRatePayID()}" scope="page"/>
+
+    <input type="hidden" id="adyenStateData" name="${pdict.CurrentForms.adyPaydata.adyenStateData.htmlName}">
+    <input type="hidden" id="paymentFromComponentStateData" name="${pdict.CurrentForms.adyPaydata.paymentFromComponentStateData.htmlName}">
+    <input type="hidden" id="merchantReference" name="${pdict.CurrentForms.adyPaydata.merchantReference.htmlName}">
+    <input type="hidden" id="orderToken" name="${pdict.CurrentForms.adyPaydata.orderToken.htmlName}">
+    <input type="text" class="form-control cardNumber" style="display:none" id="cardNumber" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.number.htmlName}">
+    <input type="hidden" class="form-control" id="cardType" name="${pdict.CurrentForms.billing.paymentMethods.creditCard.type.htmlName}">
+
+    <input id="adyenPaymentMethodName" type="hidden" name="adyenPaymentMethod"/>
+    <input id="adyenIssuerName" type="hidden" name="adyenIssuerName"/>
+
+    <ul id="paymentMethodsList"></ul>
+
+    <iscomment>
+        Adyen RatePay Device Fingerprint Code
+    </iscomment>
+    <isif condition="${empty(session.privacy.ratePayFingerprint)}">
+        <script language="JavaScript">
+            var di = {t:'${ratePayValues.sessionID}',v:'${ratePayValues.ratePayID}',l:'Checkout'};
+        </script>
+        <script type="text/javascript" src="//d.ratepay.com/${ratePayValues.ratePayID}/di.js"></script>
+    </isif>
+
+    <iscomment>
+        Adyen Generic Device Fingerprint Code
+    </iscomment>
+    <script type="text/javascript" src="https://live.adyen.com/hpp/js/df.js?v=${session.sessionID}"></script>
+    <isinputfield type="hidden" formfield="${pdict.CurrentForms.adyPaydata.adyenFingerprint}" />
+    <script type="text/javascript">
+        dfDo('dwfrm_adyPaydata_adyenFingerprint');
+    </script>
+</iselse>
+</isif>

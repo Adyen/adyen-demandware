@@ -62,7 +62,7 @@ function createPaymentRequest(args) {
     }
 
     const myAmount = AdyenHelper.getCurrencyValueForApi(
-      paymentInstrument.paymentTransaction.amount,
+        paymentInstrument.paymentTransaction.amount,
     ).getValueOrNull(); // args.Amount * 100;
     paymentRequest.amount = {
       currency: paymentInstrument.paymentTransaction.amount.currencyCode,
@@ -77,7 +77,6 @@ function createPaymentRequest(args) {
       paymentMethodType,
       paymentRequest,
     );
-
     // Create shopper data fields
     paymentRequest = AdyenHelper.createShopperObject({
       order,
