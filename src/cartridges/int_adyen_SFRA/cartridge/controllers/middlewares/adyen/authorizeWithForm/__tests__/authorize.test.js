@@ -25,7 +25,7 @@ afterEach(() => {
 describe('Authorize', () => {
   it('should authorize when MD is valid', () => {
     OrderMgr.toArray.mockImplementation(() => [
-      { custom: { adyenPaymentData: 'Authorised', adyenMD: 'mocked_md' } },
+      { custom: { adyenMD: 'mocked_md' } },
     ]);
     handleAuthorize({ req, res, next: jest.fn() });
     expect(handleOrderConfirmation.mock.calls).toMatchSnapshot();
@@ -36,15 +36,16 @@ describe('Authorize', () => {
     expect(handleError.mock.calls).toMatchSnapshot();
   });
   it('should handle invalid payment when result code is not Authorised', () => {
+    req.form.MD = 'mocked_md_unauthorised';
     OrderMgr.toArray.mockImplementation(() => [
-      { custom: { adyenPaymentData: 'Not_Authorised', adyenMD: 'mocked_md' } },
+      { custom: { adyenMD: 'mocked_md_unauthorised' } },
     ]);
     handleAuthorize({ req, res, next: jest.fn() });
     expect(handleInvalidPayment.mock.calls).toMatchSnapshot();
   });
   it('should handle invalid payment when there is an error while placing an order', () => {
     OrderMgr.toArray.mockImplementation(() => [
-      { custom: { adyenPaymentData: 'Authorised', adyenMD: 'mocked_md' } },
+      { custom: { adyenMD: 'mocked_md' } },
     ]);
     COHelpers.placeOrder.mockImplementation(() => ({ error: true }));
     handleAuthorize({ req, res, next: jest.fn() });

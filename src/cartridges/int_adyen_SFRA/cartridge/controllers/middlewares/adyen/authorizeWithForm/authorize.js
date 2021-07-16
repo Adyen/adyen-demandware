@@ -31,7 +31,6 @@ function checkForValidRequest(result, order, merchantRefOrder, options) {
 function authorize(paymentInstrument, order, options) {
   const { req } = options;
   const jsonRequest = {
-    paymentData: paymentInstrument.custom.adyenPaymentData,
     details: {
       MD: req.form.MD,
       PaRes: req.form.PaRes,
